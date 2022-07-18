@@ -5,15 +5,16 @@ import 'config/requests/login.dart';
 
 class Login extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-
   Login({super.key});
+  Map<String, dynamic> Returned_value = {};
 
   var isLogin = false;
   String page = "login";
-  bool _visible = true;
+  bool _visible = false;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController error_box = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +54,15 @@ class Login extends StatelessWidget {
             ),
           ),
           AnimatedOpacity(
-              // If the widget is visible, animate to 0.0 (invisible).
-              // If the widget is hidden, animate to 1.0 (fully visible).
               opacity: _visible ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 500),
-              // The green box must be a child of the AnimatedOpacity widget.
               child: Text(
-                'Login or password invalid',
+                Returned_value["error"] ?? "",
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: Colors.redAccent,
                 ),
               )),
-          FlatButton(
+          TextButton(
             onPressed: () {
               //TODO FORGOT PASSWORD SCREEN GOES HERE
             },
@@ -78,11 +76,11 @@ class Login extends StatelessWidget {
             width: 250,
             decoration: BoxDecoration(
                 color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {
                 print(nameController.text);
                 print(passwordController.text);
-                send_Login(
+                final Returned_value = send_Login(
                     login: nameController.text,
                     password: passwordController.text);
               },
