@@ -1,18 +1,14 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:dio/dio.dart';
 
-// ignore: non_constant_identifier_names
-Future<Map<String, dynamic>> send_Login(
-    {required String login, required String password}) async {
-  var map = new Map<String, dynamic>();
-  map['login'] = login;
-  map['password'] = password;
-
-  final response = await http.post(
-    Uri.parse('http://localhost/api.php'),
-    body: map,
-  );
-  Map<String, dynamic> resp = jsonDecode(response.body);
-  print(resp);
-  return (resp);
+Future<Map<String, dynamic>> postData(
+    {required Map<String, dynamic> body}) async {
+  var dio = Dio();
+  try {
+    FormData formData = FormData.fromMap(body);
+    var response = await dio.post('http://127.0.0.1/api.php', data: formData);
+    return response.data;
+  } catch (e) {
+    print(e);
+    return {'error': 'Can\'t reach server'};
+  }
 }

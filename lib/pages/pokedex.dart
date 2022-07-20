@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapp/pages/config/header.dart';
-import 'config/header.dart';
 
-class Pokedex extends StatelessWidget {
+class Pokedex extends StatefulWidget {
+  const Pokedex({super.key});
+
+  @override
+  State<Pokedex> createState() => _PokedexState();
+}
+
+class _PokedexState extends State<Pokedex> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  Pokedex({super.key});
+
   var isLogin = false;
+
   String page = "pokedex";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: default_AppBar(
+      appBar: const DefaultAppBar(
         parms: {},
       ),
-      drawer: new default_Container(parms: {
+      drawer: DefaultContainer(parms: {
         'page': page,
-        'account': {'isLogged': false}
+        'account': const {'isLogged': false}
       }),
-      endDrawer: default_Drawer(
-        parms: {},
+      endDrawer: DefaultDrawer(
+        parms: const {},
       ),
     );
   }

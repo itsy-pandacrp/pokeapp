@@ -1,34 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapp/pages/config/header.dart';
-import 'config/header.dart';
-import 'config/requests/login.dart';
+import 'package:pokeapp/pages/config/requests/login.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pokeapp/pages/home.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _Login createState() => _Login();
+}
+
+class _Login extends State<Login> {
+  final storage = new FlutterSecureStorage();
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  Login({super.key});
-  Map<String, dynamic> Returned_value = {};
+  String userToken = "";
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      userToken = storage.read(key: 'uti_token') as String;
+    } catch (e) {
+      userToken = "";
+    }
+    if (userToken != "") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
+    }
+  }
 
   var isLogin = false;
   String page = "login";
   bool _visible = false;
+  String _text = "";
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController error_box = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: default_AppBar(
+      appBar: const DefaultAppBar(
         parms: {"leadingVisible": false, "actionVisible": false},
       ),
-      drawer: new default_Container(parms: {
+      drawer: DefaultContainer(parms: {
         'page': page,
-        'account': {'isLogged': false}
+        'account': const {'isLogged': false}
       }),
-      endDrawer: default_Drawer(
-        parms: {},
+      endDrawer: DefaultDrawer(
+        parms: const {},
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,10 +61,10 @@ class Login extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: TextField(
               controller: nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Login'),
             ),
           ),
@@ -49,24 +74,21 @@ class Login extends StatelessWidget {
             child: TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Password'),
             ),
           ),
-          AnimatedOpacity(
-              opacity: _visible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 500),
+          Visibility(
+              visible: _visible,
               child: Text(
-                Returned_value["error"] ?? "",
-                style: TextStyle(
-                  color: Colors.redAccent,
+                _text,
+                style: const TextStyle(
+                  color: Colors.blue,
                 ),
               )),
           TextButton(
-            onPressed: () {
-              //TODO FORGOT PASSWORD SCREEN GOES HERE
-            },
-            child: Text(
+            onPressed: () async {},
+            child: const Text(
               'Forgot Password',
               style: TextStyle(color: Colors.blue, fontSize: 15),
             ),
@@ -77,23 +99,40 @@ class Login extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.blue, borderRadius: BorderRadius.circular(20)),
             child: TextButton(
-              onPressed: () {
-                print(nameController.text);
-                print(passwordController.text);
-                final Returned_value = send_Login(
-                    login: nameController.text,
-                    password: passwordController.text);
+              onPressed: () async {
+                _visible = false;
+
+                Map<String, dynamic> res = await postData(body: {
+                  'login': nameController.text,
+                  'password': passwordController.text,
+                  'function': 'login'
+                });
+
+                setState(() {
+                  _visible = res.containsKey('error');
+                  _text = res['error'] ?? "";
+                  userToken = res.containsKey('token') ? res['token'] : "";
+
+                  storage.write(key: 'uti_token', value: userToken);
+
+                  if (res.containsKey('token')) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Home()),
+                    );
+                  }
+                });
               },
-              child: Text(
+              child: const Text(
                 'Login',
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 130,
           ),
-          Text('New User? Create Account')
+          const Text('New User? Create Account')
         ],
       ),
     );

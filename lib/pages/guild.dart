@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapp/pages/config/header.dart';
-import 'config/header.dart';
 
-class Guild extends StatelessWidget {
+class Guild extends StatefulWidget {
+  const Guild({super.key});
+
+  @override
+  State<Guild> createState() => _GuildState();
+}
+
+class _GuildState extends State<Guild> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  Guild({super.key});
+
   var isLogin = false;
+
   String page = "guild";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: default_AppBar(
+      appBar: const DefaultAppBar(
         parms: {},
       ),
-      drawer: new default_Container(parms: {
+      drawer: DefaultContainer(parms: {
         'page': page,
-        'account': {'isLogged': false}
+        'account': const {'isLogged': false}
       }),
-      endDrawer: default_Drawer(
-        parms: {},
+      endDrawer: DefaultDrawer(
+        parms: const {},
       ),
     );
   }

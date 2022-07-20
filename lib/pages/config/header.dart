@@ -1,43 +1,55 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:pokeapp/pages/help.dart';
-import '../login.dart';
-import '../guild.dart';
-import '../help.dart';
-import '../pokedex.dart';
-import '../home.dart';
+// ignore_for_file: unnecessary_new
 
-class default_AppBar extends StatelessWidget implements PreferredSizeWidget {
+import "dart:async";
+import "dart:convert";
+import "package:flutter/material.dart";
+import "package:http/http.dart" as http;
+import "package:pokeapp/pages/help.dart";
+import "package:pokeapp/pages/login.dart";
+import "package:pokeapp/pages/guild.dart";
+import "package:pokeapp/pages/pokedex.dart";
+import "package:pokeapp/pages/home.dart";
+import "package:pokeapp/pages/config/objects.dart";
+
+class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const DefaultAppBar({Key? key, required this.parms}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final parms;
+
   @override
+  State<DefaultAppBar> createState() => _DefaultAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(100);
+}
+
+class _DefaultAppBarState extends State<DefaultAppBar> {
   Size get preferredSize => const Size.fromHeight(100);
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  default_AppBar({Key? key, required this.parms}) : super(key: key);
 
-  final parms;
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: Visibility(
+        visible: widget.parms["leadingVisible"] ?? true,
         child: new IconButton(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
-        visible: parms["leadingVisible"] ?? true,
       ),
       actions: [
         Visibility(
+            visible: widget.parms["actionVisible"] ?? true,
             child: IconButton(
-                icon: Icon(Icons.send),
-                onPressed: () => Scaffold.of(context).openEndDrawer()),
-            visible: parms["actionVisible"] ?? true)
+                icon: const Icon(Icons.send),
+                onPressed: () => Scaffold.of(context).openEndDrawer()))
       ],
       backgroundColor: Colors.transparent,
       bottomOpacity: 0.0,
       elevation: 0.0,
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: const IconThemeData(color: Colors.black),
       title: Center(
         child: Image.asset("assets/logos/logo.png", width: 40, height: 40),
       ),
@@ -45,95 +57,105 @@ class default_AppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class default_Container extends StatelessWidget implements PreferredSizeWidget {
+class DefaultContainer extends StatefulWidget implements PreferredSizeWidget {
+  const DefaultContainer({Key? key, required this.parms}) : super(key: key);
+
+  final Map<String, dynamic> parms;
+
   @override
+  State<DefaultContainer> createState() => _DefaultContainerState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(100);
+}
+
+class _DefaultContainerState extends State<DefaultContainer> {
   Size get preferredSize => const Size.fromHeight(100);
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  default_Container({Key? key, required this.parms}) : super(key: key);
 
-  final parms;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 250,
         child: Drawer(
           child: Column(
             children: <Widget>[
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               ListTile(
                   leading: Image.network(
                       "https://img.icons8.com/ios/50/000000/dog-house.png"),
                   dense: true,
-                  visualDensity: VisualDensity(vertical: -4),
-                  title: Text(
-                    'Home',
+                  visualDensity: const VisualDensity(vertical: -4),
+                  title: const Text(
+                    "Home",
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(builder: (context) => new Home()),
+                      new MaterialPageRoute(builder: (context) => const Home()),
                     );
                   },
-                  enabled: (parms['page'] != "home")),
-              Divider(
+                  enabled: (widget.parms["page"] != "home")),
+              const Divider(
                 color: Colors.grey,
               ),
               ListTile(
                   leading: Image.network(
                       "https://img.icons8.com/ios/50/000000/pokeball--v1.png"),
                   dense: true,
-                  visualDensity: VisualDensity(vertical: -4),
-                  title: Text(
-                    'Pokedex',
+                  visualDensity: const VisualDensity(vertical: -4),
+                  title: const Text(
+                    "Pokedex",
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new Pokedex()),
+                          builder: (context) => const Pokedex()),
                     );
                   },
-                  enabled: (parms['page'] != "pokedex")),
-              Divider(
+                  enabled: (widget.parms["page"] != "pokedex")),
+              const Divider(
                 color: Colors.grey,
               ),
               ListTile(
                   leading: Image.network(
                       "https://img.icons8.com/ios/50/000000/user-group-man-man.png"),
                   dense: true,
-                  visualDensity: VisualDensity(vertical: -4),
-                  title: Text(
-                    'Guild',
+                  visualDensity: const VisualDensity(vertical: -4),
+                  title: const Text(
+                    "Guild",
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(builder: (context) => new Guild()),
+                      new MaterialPageRoute(
+                          builder: (context) => const Guild()),
                     );
                   },
-                  enabled: (parms['page'] != "guild")),
-              Divider(
+                  enabled: (widget.parms["page"] != "guild")),
+              const Divider(
                 color: Colors.grey,
               ),
               ListTile(
                   leading: Image.network(
                       "https://img.icons8.com/ios/50/000000/help.png"),
                   dense: true,
-                  visualDensity: VisualDensity(vertical: -4),
-                  title: Text(
-                    'Help',
+                  visualDensity: const VisualDensity(vertical: -4),
+                  title: const Text(
+                    "Help",
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(builder: (context) => new Help()),
+                      new MaterialPageRoute(builder: (context) => const Help()),
                     );
                   },
-                  enabled: (parms['page'] != "help")),
-              Divider(
+                  enabled: (widget.parms["page"] != "help")),
+              const Divider(
                 color: Colors.grey,
               ),
               Expanded(
@@ -143,22 +165,22 @@ class default_Container extends StatelessWidget implements PreferredSizeWidget {
                       leading: Image.network(
                           "https://img.icons8.com/ios/50/000000/user-male-circle.png"),
                       dense: true,
-                      visualDensity: VisualDensity(vertical: -4),
-                      title: Text(
-                        (parms['account']["isLogged"] ? "Account" : "Login"),
+                      visualDensity: const VisualDensity(vertical: -4),
+                      title: const Text(
+                        "Account",
                       ),
                       onTap: () {
+                        var materialPageRoute = MaterialPageRoute(
+                            builder: (context) => const Login());
                         Navigator.push(
                           context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Login()),
+                          materialPageRoute,
                         );
                       },
-                      enabled: (parms['page'] != "account" &&
-                          parms['page'] != "login")),
+                      enabled: (widget.parms["page"] != "account")),
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
             ],
@@ -167,122 +189,108 @@ class default_Container extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class Data {
-  final int chat_id;
-  final String chat_image;
-  final String user_name;
-  final String last_message;
-
-  Data(
-      {required this.chat_id,
-      required this.chat_image,
-      required this.user_name,
-      required this.last_message});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      chat_id: json['chat_id'],
-      chat_image: json['chat_image'],
-      user_name: json['user_name'],
-      last_message: json['last_message'],
-    );
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response = await http.get(Uri.parse('http://localhost/chat.json'));
+Future<List<Chat>> fetchData() async {
+  final response = await http.get(Uri.parse("http://localhost/chat.json"));
   if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body)['chat'];
-    return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+    List jsonResponse = json.decode(response.body)["chat"];
+    return jsonResponse.map((data) => new Chat.fromJson(data)).toList();
   } else {
-    throw Exception('Unexpected error occured!');
+    throw Exception("Unexpected error occured!");
   }
 }
 
-class default_Drawer extends StatelessWidget implements PreferredSizeWidget {
+// ignore: must_be_immutable
+class DefaultDrawer extends StatefulWidget implements PreferredSizeWidget {
+  DefaultDrawer({super.key, required this.parms}) {
+    const Size.fromHeight(100);
+  }
+
+  // ignore: prefer_typing_uninitialized_variables
+  var parms;
   @override
+  State<DefaultDrawer> createState() => _DefaultDrawerState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(100);
+}
+
+class _DefaultDrawerState extends State<DefaultDrawer> {
   Size get preferredSize => const Size.fromHeight(100);
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
-  default_Drawer({Key? key, required this.parms}) : super(key: key);
-
-  final parms;
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: Container(
-      child: Center(
-        child: FutureBuilder<List<Data>>(
-          future: fetchData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Data>? data = snapshot.data;
-              return ListView.builder(
-                  itemCount: data?.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
-                            child: Image.network(
-                              data![index].chat_image,
-                              width: 60,
-                              height: 60,
-                              fit: BoxFit.cover,
-                            ),
+        child: Center(
+      child: FutureBuilder<List<Chat>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Chat>? data = snapshot.data;
+            return ListView.builder(
+                itemCount: data?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Image.network(
+                            data![index].chatImage,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12, 0, 0, 0),
-                                  child: Text(data[index].user_name),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12, 0, 0, 0),
-                                  child: Text(data[index].last_message),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: Color(0xFFF1F4F8),
-                            elevation: 1,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                              child: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: Color(0xFF57636C),
-                                size: 24,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
+                                child: Text(data[index].userName),
                               ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
+                                child: Text(data[index].lastMessage),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          color: const Color(0xFFF1F4F8),
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                            child: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: Color(0xFF57636C),
+                              size: 24,
                             ),
                           ),
-                        ],
-                      ),
-                      //Text(data![index].user_name),
-                    );
-                  });
-            } else if (snapshot.hasError) {
-              return Text(
-                  "Une erreur est survenue pendant la récupération des données");
-            }
-            // By default show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
+                        ),
+                      ],
+                    ),
+                    //Text(data![index].user_name),
+                  );
+                });
+          } else if (snapshot.hasError) {
+            return const Text(
+                "Une erreur est survenue pendant la récupération des données");
+          }
+          // By default show a loading spinner.
+          return const CircularProgressIndicator();
+        },
       ),
     ));
   }
