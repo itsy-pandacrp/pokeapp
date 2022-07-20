@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapp/pages/config/header.dart';
-import 'package:pokeapp/pages/config/requests/login.dart';
+import 'package:pokeapp/pages/config/post.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pokeapp/pages/home.dart';
 

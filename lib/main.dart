@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './pages/home.dart';
+import './pages/login.dart';
 
 void main() => runApp(const MyApp());
 
@@ -39,7 +39,7 @@ class Start extends State<MyStatefulWidget> with TickerProviderStateMixin {
     controller.forward().whenComplete(() => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Home()),
+            MaterialPageRoute(builder: (context) => const Login()),
           )
         });
     super.initState();
