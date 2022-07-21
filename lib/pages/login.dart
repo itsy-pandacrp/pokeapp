@@ -8,7 +8,6 @@ class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _Login createState() => _Login();
 }
 
@@ -103,19 +102,19 @@ class _Login extends State<Login> {
                 _visible = false;
 
                 Map<String, dynamic> res = await postData(body: {
-                  'login': nameController.text,
+                  'email': nameController.text,
                   'password': passwordController.text,
-                  'function': 'login'
-                });
+                }, function: 'login');
 
                 setState(() {
                   _visible = res.containsKey('error');
                   _text = res['error'] ?? "";
-                  userToken = res.containsKey('token') ? res['token'] : "";
+                  userToken = res['api_token'];
+                  print(userToken);
 
                   storage.write(key: 'uti_token', value: userToken);
 
-                  if (res.containsKey('token')) {
+                  if (res.containsKey('api_token')) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Home()),

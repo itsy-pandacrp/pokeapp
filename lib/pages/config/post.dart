@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
 
 Future<Map<String, dynamic>> postData(
-    {required Map<String, dynamic> body}) async {
-  var dio = Dio();
+    {required Map<String, dynamic> body, required String function}) async {
   try {
+    var dio = Dio();
     FormData formData = FormData.fromMap(body);
-    var response = await dio.post('http://127.0.0.1/api.php', data: formData);
-    return response.data;
+    var response = await dio.post('http://pokehub.pandacrp.com/api/' + function,
+        data: formData);
+    return await response.data;
   } catch (e) {
-    return {'error': 'Can\'t reach server'};
+    print(e);
+    return ({'error': 'can\'t reach server'});
   }
 }

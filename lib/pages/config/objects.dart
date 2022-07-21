@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class User {
   final String name;
   final String token;
@@ -29,4 +31,30 @@ class Chat {
         userName: json["user_name"],
         lastMessage: json["last_message"],
       );
+}
+
+class Feed {
+  final String id;
+  final String title;
+  final String content;
+  final String date;
+  final String image;
+
+  const Feed({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.date,
+    required this.image,
+  });
+
+  factory Feed.fromJson(Map<String, dynamic> json) {
+    return Feed(
+      id: json['id'],
+      title: json['title'],
+      content: json['content'],
+      date: json['date'],
+      image: json['image'],
+    );
+  }
 }
