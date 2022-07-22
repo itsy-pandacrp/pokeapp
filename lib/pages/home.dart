@@ -64,6 +64,7 @@ class _Home extends State<Home> {
             return ListView.builder(
                 itemCount: data?.length,
                 itemBuilder: (BuildContext context, int index) {
+                  print(data![index].image);
                   return Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                     child: Container(
@@ -94,7 +95,7 @@ class _Home extends State<Home> {
                                     topRight: Radius.circular(8),
                                   ),
                                   child: Image.network(
-                                    data![index].image,
+                                    "https://randomwordgenerator.com/img/picture-generator/57e3d6424351ad14f1dc8460962e33791c3ad6e04e507440772d7cdd9144c4_640.jpg", //data![index].image,
                                     width: double.infinity,
                                     height: 100,
                                     fit: BoxFit.cover,
