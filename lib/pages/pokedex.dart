@@ -8,6 +8,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pokeapp/pages/config/objects.dart';
 import 'package:http/http.dart' as http;
 
+class Pokemon {
+  final String name;
+  final String picture;
+
+  Pokemon({required this.name, required this.picture});
+
+  factory Pokemon.fromJson(Map<String, dynamic> json) =>
+      Pokemon(name: json["name"], picture: json["picture"]);
+}
+
 class PokeDex extends StatefulWidget {
   const PokeDex({Key? key}) : super(key: key);
 
@@ -17,13 +27,12 @@ class PokeDex extends StatefulWidget {
   }
 }
 
-Future<List<Feed>> fetchFeed() async {
-  final response =
-      await http.get(Uri.parse("http://pokehub.pandacrp.com/api/getListPokemon"));
-      print(response);
+Future<List<Pokemon>> fetchFeed() async {
+  final response = await http
+      .post(Uri.parse("http://pokehub.pandacrp.com/api/getListPokemon"));
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body)["feed"];
-    return jsonResponse.map((data) => Feed.fromJson(data)).toList();
+    return jsonResponse.map((data) => Pokemon.fromJson(data)).toList();
   } else {
     print(response.body);
     throw Exception("Unexpected error occured!");
@@ -33,7 +42,7 @@ Future<List<Feed>> fetchFeed() async {
 class _PokeDex extends State<PokeDex> {
   final storage = new FlutterSecureStorage();
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  late Future<List<Feed>> feeds;
+  late Future<List<Pokemon>> feeds;
 
   @override
   void initState() {
@@ -57,102 +66,69 @@ class _PokeDex extends State<PokeDex> {
       endDrawer: DefaultDrawer(
         parms: const {},
       ),
-      body: FutureBuilder<List<Feed>>(
+      body: FutureBuilder<List<Pokemon>>(
         future: fetchFeed(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Feed>? data = snapshot.data;
+            List<Pokemon>? data = snapshot.data;
             return ListView.builder(
                 itemCount: data?.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 7,
-                            color: Color(0x2F1D2429),
-                            offset: Offset(0, 3),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Visibility(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(0),
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8),
-                                  ),
-                                  child: Image.network(
-                                    data![index].image,
-                                    width: double.infinity,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                      child: // Generated code for this Container Widget...
+                          Container(
+                        width: double.infinity,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
-                                visible: data[index].image != ""),
-                            Visibility(
+                                child: Image.network(
+                                  data![index].picture,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                              Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16, 8, 16, 4),
-                                  child: Row(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12, 0, 0, 0),
+                                  child: Column(
                                     mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        data[index].title,
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            data![index].name,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                                visible: data[index].title != ""),
-                            Visibility(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16, 0, 16, 4),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      data[index].date,
-                                    ),
-                                  ],
-                                ),
                               ),
-                              visible: data[index].date != "",
-                            ),
-                            Visibility(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16, 0, 16, 8),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        data[index].content,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              visible: data[index].content != "",
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
+                      ));
                 });
           } else if (snapshot.hasError) {
             print(snapshot.data);

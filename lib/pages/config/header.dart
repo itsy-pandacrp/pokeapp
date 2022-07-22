@@ -127,11 +127,10 @@ class _DefaultContainerState extends State<DefaultContainer> {
                     "Pokedex",
                   ),
                   onTap: () {
-                    /*Navigator.push(
+                    var push = Navigator.push(
                       context,
-                      new MaterialPageRoute(
-                          builder: (context) => const Pokedex()),
-                    );*/
+                      new MaterialPageRoute(builder: (context) => PokeDex()),
+                    );
                   },
                   enabled: (widget.parms["page"] != "pokedex")),
               const Divider(

@@ -3,6 +3,7 @@ import 'package:pokeapp/pages/config/header.dart';
 import 'package:pokeapp/pages/config/post.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pokeapp/pages/home.dart';
+import 'package:pokeapp/pages/register.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -134,7 +135,14 @@ class _Login extends State<Login> {
           const SizedBox(
             height: 130,
           ),
-          const Text('New User? Create Account')
+          TextButton(
+              child: Text('New User? Create Account'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Register()),
+                );
+              }),
         ],
       ),
     );
