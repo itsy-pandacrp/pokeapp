@@ -50,7 +50,7 @@ class _PokeDex extends State<PokeDex> {
   }
 
   var isLogin = false;
-  String page = "guild";
+  String page = "pokedex";
 
   @override
   Widget build(BuildContext context) {
