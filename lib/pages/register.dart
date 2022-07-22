@@ -3,6 +3,7 @@ import 'package:pokeapp/pages/config/header.dart';
 import 'package:pokeapp/pages/config/post.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pokeapp/pages/home.dart';
+import 'package:pokeapp/pages/login.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -33,12 +34,15 @@ class _Register extends State<Register> {
     });
   }
 
+  var isLogin = false;
   String page = "login";
   bool _visible = false;
   String _text = "";
 
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirm_passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,15 @@ class _Register extends State<Register> {
             child: TextField(
               controller: nameController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Login'),
+                  border: OutlineInputBorder(), labelText: 'Username'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Email'),
             ),
           ),
           Padding(
@@ -75,6 +87,16 @@ class _Register extends State<Register> {
               obscureText: true,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Password'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 15.0, right: 15.0, top: 15, bottom: 0),
+            child: TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Confirm Password'),
             ),
           ),
           Visibility(
@@ -102,8 +124,10 @@ class _Register extends State<Register> {
                 _visible = false;
 
                 Map<String, dynamic> res = await postData(body: {
-                  'email': nameController.text,
+                  'pseudo': nameController.text,
+                  'email': emailController.text,
                   'password': passwordController.text,
+                  'password_confirm': passwordController.text,
                 }, function: 'login');
 
                 print(res);
@@ -125,7 +149,7 @@ class _Register extends State<Register> {
                 });
               },
               child: const Text(
-                'Login',
+                'Register',
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
@@ -133,7 +157,14 @@ class _Register extends State<Register> {
           const SizedBox(
             height: 130,
           ),
-          const Text('New User? Create Account')
+          TextButton(
+              child: Text('Already have an accout ? Login'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              }),
         ],
       ),
     );

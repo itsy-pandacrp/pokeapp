@@ -40,7 +40,7 @@ class _Home extends State<Home> {
   }
 
   var isLogin = false;
-  String page = "guild";
+  String page = "home";
 
   @override
   Widget build(BuildContext context) {
