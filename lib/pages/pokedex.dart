@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pokeapp/pages/config/header.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pokeapp/pages/config/objects.dart';
 import 'package:http/http.dart' as http;
 
 class Pokemon {
@@ -15,7 +14,7 @@ class Pokemon {
   Pokemon({required this.name, required this.picture});
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      Pokemon(name: json["name"], picture: json["picture"]);
+      Pokemon(name: json["name"], picture: json["url"]);
 }
 
 class PokeDex extends StatefulWidget {
@@ -27,14 +26,14 @@ class PokeDex extends StatefulWidget {
   }
 }
 
-Future<List<Pokemon>> fetchFeed() async {
+Future<List<Pokemon>> fetchPokedex() async {
   final response = await http
       .post(Uri.parse("http://pokehub.pandacrp.com/api/getListPokemon"));
   if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body)["feed"];
+    List jsonResponse = json.decode(response.body)["results"];
+    print(jsonResponse);
     return jsonResponse.map((data) => Pokemon.fromJson(data)).toList();
   } else {
-    print(response.body);
     throw Exception("Unexpected error occured!");
   }
 }
@@ -67,7 +66,7 @@ class _PokeDex extends State<PokeDex> {
         parms: const {},
       ),
       body: FutureBuilder<List<Pokemon>>(
-        future: fetchFeed(),
+        future: fetchPokedex(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Pokemon>? data = snapshot.data;
@@ -81,11 +80,12 @@ class _PokeDex extends State<PokeDex> {
                           Container(
                         width: double.infinity,
                         height: 60,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              12, 8, 12, 8),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -93,7 +93,7 @@ class _PokeDex extends State<PokeDex> {
                                 width: 40,
                                 height: 40,
                                 clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
                                 child: Image.network(
@@ -103,7 +103,7 @@ class _PokeDex extends State<PokeDex> {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       12, 0, 0, 0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -131,11 +131,11 @@ class _PokeDex extends State<PokeDex> {
                       ));
                 });
           } else if (snapshot.hasError) {
-            print(snapshot.data);
+            print(snapshot.error);
             return const Text(
                 "Une erreur est survenue pendant la récupération des données");
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

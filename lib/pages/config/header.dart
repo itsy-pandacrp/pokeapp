@@ -285,7 +285,7 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
             return const Text(
                 "Une erreur est survenue pendant la récupération des données");
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     ));
