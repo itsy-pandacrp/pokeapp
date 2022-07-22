@@ -19,17 +19,18 @@ class _Login extends State<Login> {
   @override
   void initState() {
     super.initState();
-    try {
-      userToken = storage.read(key: 'uti_token') as String;
-    } catch (e) {
-      userToken = "";
-    }
-    if (userToken != "") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
-    }
+    storage.read(key: 'uti_token').then((value) {
+      setState(() {
+        userToken = value ?? "";
+      });
+      if (userToken != "") {
+        print(userToken);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
+    });
   }
 
   var isLogin = false;
@@ -106,15 +107,17 @@ class _Login extends State<Login> {
                   'password': passwordController.text,
                 }, function: 'login');
 
+                print(res);
+
                 setState(() {
                   _visible = res.containsKey('error');
                   _text = res['error'] ?? "";
-                  userToken = res['api_token'];
+                  userToken = res['api_token'] ?? "";
                   print(userToken);
 
                   storage.write(key: 'uti_token', value: userToken);
 
-                  if (res.containsKey('api_token')) {
+                  if (res.containsKey('api_token') && res["api_token"] != "") {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Home()),

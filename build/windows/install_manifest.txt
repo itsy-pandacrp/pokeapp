@@ -1,8 +1,9 @@
-D:/code/pokeapp/build/windows/runner/Release/data/icudtl.dat
-D:/code/pokeapp/build/windows/runner/Release/flutter_windows.dll
-D:/code/pokeapp/build/windows/runner/Release/data/flutter_assets/AssetManifest.json
-D:/code/pokeapp/build/windows/runner/Release/data/flutter_assets/assets/logos/logo.png
-D:/code/pokeapp/build/windows/runner/Release/data/flutter_assets/FontManifest.json
-D:/code/pokeapp/build/windows/runner/Release/data/flutter_assets/fonts/MaterialIcons-Regular.otf
-D:/code/pokeapp/build/windows/runner/Release/data/flutter_assets/NOTICES.Z
-D:/code/pokeapp/build/windows/runner/Release/data/app.so
+D:/code/pokeapp/build/windows/runner/Debug/data/icudtl.dat
+D:/code/pokeapp/build/windows/runner/Debug/flutter_windows.dll
+D:/code/pokeapp/build/windows/runner/Debug/flutter_secure_storage_windows_plugin.dll
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/assets/logos/logo.png
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+D:/code/pokeapp/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z

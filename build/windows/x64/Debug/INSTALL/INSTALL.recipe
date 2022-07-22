@@ -8,6 +8,9 @@
       <FullPath>D:\code\pokeapp\build\windows\flutter\x64\Debug\flutter_assemble</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\code\pokeapp\build\windows\plugins\flutter_secure_storage_windows\Debug\flutter_secure_storage_windows_plugin.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\code\pokeapp\build\windows\runner\Debug\pokeapp.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>

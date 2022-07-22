@@ -8,3 +8,6 @@ D:/code/pokeapp/build/windows/flutter/CMakeFiles/INSTALL.dir
 D:/code/pokeapp/build/windows/runner/CMakeFiles/pokeapp.dir
 D:/code/pokeapp/build/windows/runner/CMakeFiles/INSTALL.dir
 D:/code/pokeapp/build/windows/runner/CMakeFiles/ALL_BUILD.dir
+D:/code/pokeapp/build/windows/plugins/flutter_secure_storage_windows/CMakeFiles/flutter_secure_storage_windows_plugin.dir
+D:/code/pokeapp/build/windows/plugins/flutter_secure_storage_windows/CMakeFiles/INSTALL.dir
+D:/code/pokeapp/build/windows/plugins/flutter_secure_storage_windows/CMakeFiles/ALL_BUILD.dir

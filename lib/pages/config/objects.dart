@@ -34,27 +34,28 @@ class Chat {
 }
 
 class Feed {
+  final String type;
   final String id;
   final String title;
-  final String content;
   final String date;
+  final String content;
   final String image;
 
-  const Feed({
+  Feed({
+    required this.type,
     required this.id,
     required this.title,
-    required this.content,
     required this.date,
+    required this.content,
     required this.image,
   });
 
-  factory Feed.fromJson(Map<String, dynamic> json) {
-    return Feed(
-      id: json['id'],
-      title: json['title'],
-      content: json['content'],
-      date: json['date'],
-      image: json['image'],
-    );
-  }
+  factory Feed.fromJson(Map<String, dynamic> json) => Feed(
+        type: json["type"],
+        id: json["id"],
+        title: json["title"],
+        date: json["date"],
+        content: json["content"],
+        image: json["image"],
+      );
 }

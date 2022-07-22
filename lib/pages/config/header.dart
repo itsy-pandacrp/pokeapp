@@ -1,20 +1,18 @@
-// ignore_for_file: unnecessary_new
-
 import "dart:async";
 import "dart:convert";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
-import "package:pokeapp/pages/help.dart";
+import 'package:pokeapp/pages/account.dart';
 import "package:pokeapp/pages/login.dart";
 import "package:pokeapp/pages/guild.dart";
 import "package:pokeapp/pages/pokedex.dart";
 import "package:pokeapp/pages/home.dart";
 import "package:pokeapp/pages/config/objects.dart";
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   const DefaultAppBar({Key? key, required this.parms}) : super(key: key);
 
-  // ignore: prefer_typing_uninitialized_variables
   final parms;
 
   @override
@@ -70,7 +68,25 @@ class DefaultContainer extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _DefaultContainerState extends State<DefaultContainer> {
+  final storage = new FlutterSecureStorage();
+  String userToken = "";
   Size get preferredSize => const Size.fromHeight(100);
+
+  @override
+  void initState() {
+    super.initState();
+    storage.read(key: 'uti_token').then((value) {
+      setState(() {
+        userToken = value ?? "";
+        if (userToken == "") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Login()),
+          );
+        }
+      });
+    });
+  }
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -111,11 +127,11 @@ class _DefaultContainerState extends State<DefaultContainer> {
                     "Pokedex",
                   ),
                   onTap: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => const Pokedex()),
-                    );
+                    );*/
                   },
                   enabled: (widget.parms["page"] != "pokedex")),
               const Divider(
@@ -140,24 +156,6 @@ class _DefaultContainerState extends State<DefaultContainer> {
               const Divider(
                 color: Colors.grey,
               ),
-              ListTile(
-                  leading: Image.network(
-                      "https://img.icons8.com/ios/50/000000/help.png"),
-                  dense: true,
-                  visualDensity: const VisualDensity(vertical: -4),
-                  title: const Text(
-                    "Help",
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => const Help()),
-                    );
-                  },
-                  enabled: (widget.parms["page"] != "help")),
-              const Divider(
-                color: Colors.grey,
-              ),
               Expanded(
                 child: Align(
                   alignment: FractionalOffset.bottomCenter,
@@ -171,7 +169,7 @@ class _DefaultContainerState extends State<DefaultContainer> {
                       ),
                       onTap: () {
                         var materialPageRoute = MaterialPageRoute(
-                            builder: (context) => const Login());
+                            builder: (context) => const Account());
                         Navigator.push(
                           context,
                           materialPageRoute,
@@ -190,7 +188,7 @@ class _DefaultContainerState extends State<DefaultContainer> {
 }
 
 Future<List<Chat>> fetchData() async {
-  final response = await http.get(Uri.parse("http://localhost/chat.json"));
+  final response = await http.get(Uri.parse("http://10.176.128.167/chat.json"));
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body)["chat"];
     return jsonResponse.map((data) => new Chat.fromJson(data)).toList();
@@ -288,7 +286,6 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
             return const Text(
                 "Une erreur est survenue pendant la récupération des données");
           }
-          // By default show a loading spinner.
           return const CircularProgressIndicator();
         },
       ),
