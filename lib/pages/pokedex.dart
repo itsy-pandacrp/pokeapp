@@ -19,7 +19,8 @@ class PokeDex extends StatefulWidget {
 
 Future<List<Feed>> fetchFeed() async {
   final response =
-      await http.get(Uri.parse("http://10.176.128.167/api/feed/index.php"));
+      await http.get(Uri.parse("http://pokehub.pandacrp.com/api/getListPokemon"));
+      print(response);
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body)["feed"];
     return jsonResponse.map((data) => Feed.fromJson(data)).toList();
